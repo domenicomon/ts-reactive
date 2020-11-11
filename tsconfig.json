@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es2015",
+        "jsx": "react",
+        "strict": true,
+        "strictFunctionTypes": false,
+        "baseUrl": ".",
+        "esModuleInterop": true,
+        "types": [
+            "jest", 
+            "./src/typings/style",
+            "./src/typings/google.ima",
+            "./src/typings/hls.js",
+            "./src/typings/shaka"
+        ]
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
