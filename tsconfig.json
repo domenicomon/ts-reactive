@@ -11,11 +11,7 @@
         "baseUrl": ".",
         "esModuleInterop": true,
         "types": [
-            "jest", 
-            "./src/typings/style",
-            "./src/typings/google.ima",
-            "./src/typings/hls.js",
-            "./src/typings/shaka"
+            "jest"
         ]
     },
     "include": [
