@@ -99,9 +99,10 @@ describe("Debounce", () => {
         obs1.update(1);
         expect(result).toBe(0);
         setTimeout(() => { obs1.update(2) }, 500)
-        setTimeout(() => { expect(result).toBe(2); done() }, 2000)
+        setTimeout(() => { expect(result).toBe(2); done()}, 2000)
     });
 });
+
 
 describe("Throttle", () => {
     test('Throttle observable', (done) => {
@@ -119,13 +120,13 @@ describe("Throttle", () => {
         setTimeout(() => { obs1.update(2) }, 200)
         setTimeout(() => {  expect(result).toBe(1); }, 250)
         setTimeout(() => { obs1.update(3) }, 600)
-        setTimeout(() => { expect(result).toBe(3); done() }, 650)
+        setTimeout(() => { expect(result).toBe(3); done()}, 650)
     });
 });
 
 
 describe("Sample", () => {
-    test('Sample observable', () => {
+     test('Sample observable', (done) => {
         let result: number = 0;
         const obs1 = new Observable(0);
 
@@ -142,6 +143,7 @@ describe("Sample", () => {
         setTimeout(() => { obs1.update(4) }, 400)
         setTimeout(() => { expect(result).toBe(0);}, 450)
         setTimeout(() => { obs1.update(5) }, 500)
-        setTimeout(() => { expect(result).toBe(5);}, 600)
-    }, 1000);
+        setTimeout(() => { obs1.update(5) }, 600)
+        setTimeout(() => { expect(result).toBe(5); done()}, 2000)
+    }); 
 });
