@@ -1,6 +1,6 @@
 {
   "name": "ts-reactive",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Minimal and lightweight typescript reactive programming libray",
   "main": "src/index.ts",
   "outDir": "dist",
