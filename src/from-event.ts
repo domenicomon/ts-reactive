@@ -1,6 +1,6 @@
 import { Handler, Observable } from "./observable";
 
-export function fromEvent<T>(element: HTMLElement, eventName: string, listenerOptions: any): Observable<T> {
+export function fromEvent<T>(element: HTMLElement, eventName: string, listenerOptions?: any): Observable<T> {
     const obs = new Observable<T>();
     const eventListener = (event: Event) => {
         obs.update(event as unknown as T);
