@@ -1,6 +1,6 @@
 {
   "name": "ts-reactive",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Minimal and lightweight typescript reactive programming libray",
   "main": "src/index.ts",
   "scripts": {
