@@ -1,13 +1,13 @@
 {
   "name": "ts-reactive",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "description": "Minimal and lightweight typescript reactive programming libray",
   "main": "index.js",
   "outDir": "dist",
   "scripts": {
     "test": "npx jest",
     "minify": "uglifyjs-folder dist -e -o dist -x .js",
-    "build": "tsc | tsc index.ts --declaration",
+    "build": "tsc",
     "dist": "npm run build && npm run minify"
   },
   "repository": {
