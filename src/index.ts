@@ -1,4 +1,4 @@
 export { combineLatest } from './combine-latest';
 export { merge } from './merge';
-export { Observable } from './observable';
+export { Handler, Observable, Subscription } from './observable';
 
