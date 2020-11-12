@@ -64,7 +64,7 @@ export class Observable<T> {
     throttle = (wait: number): Observable<T> => {
         const s = new Observable(this.value);
         let isCalled = false;
-        let t: number;
+        let t: any;
         const sub = this.subscribe((value: T) => {
             if (!isCalled) {
                 s.update(value);
@@ -91,7 +91,7 @@ export class Observable<T> {
 
     debounce = (wait: number): Observable<T> => {
         const s = new Observable(this.value);
-        let t = -1;
+        let t: any = -1;
         const sub = this.subscribe((value: T) => {
             t !== -1 && clearTimeout(t);
             t = setTimeout(() => {
@@ -117,8 +117,8 @@ export class Observable<T> {
 
     sample = (wait: number): Observable<T> => {
         const s = new Observable(this.value);
-        let st = -1;
-        let dt = -1;
+        let st: any = -1;
+        let dt: any = -1;
         const sub = this.subscribe((value: T) => {
             dt !== -1 && clearTimeout(dt);
 
