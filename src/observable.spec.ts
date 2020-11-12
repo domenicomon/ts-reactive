@@ -1,4 +1,4 @@
-import { Observable } from './observable';
+import { Observable } from '../src/observable';
 
 describe("Simple subscribe", () => {
     test('Subscribe to observable', () => {

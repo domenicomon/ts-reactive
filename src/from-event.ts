@@ -3,7 +3,7 @@ import { Handler, Observable } from "./observable";
 export function fromEvent(element: HTMLElement, eventName: string, listenerOptions?: any): Observable<Event> {
     const obs = new Observable<Event>();
     const eventListener = (event: Event) => {
-        obs.update(event as unknown as Event);
+        obs.update(event);
     }
     element.addEventListener(eventName, eventListener, listenerOptions);
     obs.unsubscribe = (handler: Handler<Event>) => {

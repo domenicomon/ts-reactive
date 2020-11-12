@@ -1,5 +1,5 @@
-import { Observable } from './observable';
-import { merge } from './merge';
+import { Observable } from '../src/observable';
+import { merge } from '../src/merge';
 
 describe("merge tests", () => {
     test('MErge 3 observable', () => {
