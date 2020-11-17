@@ -14,6 +14,7 @@ export declare class Observable<T> {
     map<U>(transform: (value?: T) => U): Observable<U>;
     take: (amount: number) => Observable<T>;
     takeUntil: (obs: Observable<any>) => Observable<T>;
+    distinct: (compareFunction?: (a: T, b: T) => boolean) => Observable<T>;
     throttle: (wait: number) => Observable<T>;
     debounce: (wait: number) => Observable<T>;
     sample: (wait: number) => Observable<T>;

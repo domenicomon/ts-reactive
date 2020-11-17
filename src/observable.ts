@@ -61,6 +61,32 @@ export class Observable<T> {
         return this;
     }
 
+    distinct = (compareFunction?: (a: T, b: T) => boolean): Observable<T> => {
+        const s = new Observable(this.value);
+        let oldValue = undefined;
+        const sub = this.subscribe((value: T) => {
+            let test = value !== oldValue;
+            if (typeof compareFunction === 'function') {
+                test = compareFunction(oldValue, value)
+            }
+            if (test) {
+                s.update(value);
+                oldValue = value;
+            }
+        });
+
+        s.unsubscribe = (handler: Handler<T>) => {
+            sub.dispose();
+            s.unsubscribe(handler);
+        };
+
+        s.dispose = () => {
+            sub.dispose();
+            s.dispose();
+        };
+        return s
+    }
+
     throttle = (wait: number): Observable<T> => {
         const s = new Observable(this.value);
         let isCalled = false;

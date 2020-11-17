@@ -126,24 +126,46 @@ describe("Throttle", () => {
 
 
 describe("Sample", () => {
-     test('Sample observable', (done) => {
+    test('Sample observable', (done) => {
+       let result: number = 0;
+       const obs1 = new Observable(0);
+
+       obs1.sample(500).subscribe(value => {
+           result = value;
+       });
+       expect(result).toBe(0);
+       obs1.update(1);
+       expect(result).toBe(0);
+       setTimeout(() => { obs1.update(2) }, 200)
+       setTimeout(() => { expect(result).toBe(0);}, 250)
+       setTimeout(() => { obs1.update(3) }, 300)
+       setTimeout(() => { expect(result).toBe(0); }, 350)
+       setTimeout(() => { obs1.update(4) }, 400)
+       setTimeout(() => { expect(result).toBe(0);}, 450)
+       setTimeout(() => { obs1.update(5) }, 500)
+       setTimeout(() => { obs1.update(5) }, 600)
+       setTimeout(() => { expect(result).toBe(5); done()}, 2000)
+   }); 
+});
+
+describe("Distinct", () => {
+     test('Distinct observable', () => {
+        let count: number = 0;
         let result: number = 0;
         const obs1 = new Observable(0);
 
-        obs1.sample(500).subscribe(value => {
+        obs1.distinct().subscribe(value => {
+            count += 1;
             result = value;
         });
         expect(result).toBe(0);
         obs1.update(1);
-        expect(result).toBe(0);
-        setTimeout(() => { obs1.update(2) }, 200)
-        setTimeout(() => { expect(result).toBe(0);}, 250)
-        setTimeout(() => { obs1.update(3) }, 300)
-        setTimeout(() => { expect(result).toBe(0); }, 350)
-        setTimeout(() => { obs1.update(4) }, 400)
-        setTimeout(() => { expect(result).toBe(0);}, 450)
-        setTimeout(() => { obs1.update(5) }, 500)
-        setTimeout(() => { obs1.update(5) }, 600)
-        setTimeout(() => { expect(result).toBe(5); done()}, 2000)
+        expect(result).toBe(1);
+        obs1.update(1);
+        expect(result).toBe(1);
+        obs1.update(3);
+        expect(count).toBe(2);
+        expect(result).toBe(3);
+        
     }); 
 });
