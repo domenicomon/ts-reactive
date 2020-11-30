@@ -5,7 +5,7 @@ export function fromEvent<E>(element: any, eventName: string, listenerOptions?: 
     const eventListener = (event: E) => {
         obs.update(event);
     }
-    let listener = typeof element.addEventListener;
+    let listener = element.addEventListener;
     if(typeof element.addListener === 'function') {
         listener = element.addListener
     }
