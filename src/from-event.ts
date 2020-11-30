@@ -1,12 +1,16 @@
 import { Handler, Observable } from "./observable";
 
-export function fromEvent(element: HTMLElement, eventName: string, listenerOptions?: any): Observable<Event> {
-    const obs = new Observable<Event>();
-    const eventListener = (event: Event) => {
+export function fromEvent<E>(element: any, eventName: string, listenerOptions?: any): Observable<E> {
+    const obs = new Observable<E>();
+    const eventListener = (event: E) => {
         obs.update(event);
     }
-    element.addEventListener(eventName, eventListener, listenerOptions);
-    obs.unsubscribe = (handler: Handler<Event>) => {
+    let listener = typeof element.addEventListener;
+    if(typeof element.addListener === 'function') {
+        listener = element.addListener
+    }
+    typeof listener === 'function' && element.addEventListener(eventName, eventListener, listenerOptions);
+    obs.unsubscribe = (handler: Handler<E>) => {
         obs.unsubscribe(handler);
         element.removeEventListener(eventName, eventListener, listenerOptions);
     };
