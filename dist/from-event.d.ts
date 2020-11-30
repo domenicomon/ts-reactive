@@ -1,2 +1,2 @@
 import { Observable } from "./observable";
-export declare function fromEvent(element: HTMLElement, eventName: string, listenerOptions?: any): Observable<Event>;
+export declare function fromEvent<E>(element: any, eventName: string, listenerOptions?: any): Observable<E>;
