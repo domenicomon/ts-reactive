@@ -7,9 +7,9 @@ export declare class Observable<T> {
     handlers: Array<Handler<T>>;
     disposables: Subscription<T>[];
     constructor(value?: T);
-    subscribe: (handler: Handler<T>, replay?: Boolean) => Subscription<T>;
-    unsubscribe: (handler: Handler<T>) => void;
-    dispose: () => void;
+    subscribe(handler: Handler<T>, replay?: Boolean): Subscription<T>;
+    unsubscribe(handler: Handler<T>): void;
+    dispose(): void;
     update(value: T): this;
     map<U>(transform: (value?: T) => U): Observable<U>;
     take: (amount: number) => Observable<T>;

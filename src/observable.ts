@@ -8,7 +8,7 @@ export class Observable<T> {
 
     constructor(private value?: T) { }
 
-    subscribe = (handler: Handler<T>, replay: Boolean = false): Subscription<T> => {
+    subscribe(handler: Handler<T>, replay: Boolean = false): Subscription<T> {
         this.handlers.push(handler)
         if (this.value && replay) {
             handler(this.value)
@@ -16,11 +16,11 @@ export class Observable<T> {
         return { dispose: () => this.unsubscribe(handler) };
     }
 
-    unsubscribe = (handler: Handler<T>) => {
+    unsubscribe(handler: Handler<T>){
         this.handlers = this.handlers.filter(h => h != handler);
     }
 
-    dispose = () => {
+    dispose() {
         this.handlers.splice(0, this.handlers.length);
         this.disposables.forEach(item => item.dispose());
         this.disposables.splice(0, this.disposables.length);
