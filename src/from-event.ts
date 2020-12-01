@@ -5,21 +5,24 @@ export function fromEvent<E>(element: any, eventName: string, listenerOptions?: 
     const eventListener = (event: E) => {
         obs.update(event);
     }
-    let listener = element.addEventListener;
+    let addListener = element.addEventListener;
+    let removeListener = element.removeEventListener;
     if(typeof element.addListener === 'function') {
-        listener = element.addListener
+        addListener = element.addListener
+        removeListener = element.removeListener
     }
     if(typeof element.on === 'function') {
-        listener = element.on
+        addListener = element.on;
+        removeListener = element.off
     }
-    typeof listener === 'function' && listener(eventName, eventListener, listenerOptions);
+    typeof addListener === 'function' && addListener(eventName, eventListener, listenerOptions);
     obs.unsubscribe = (handler: Handler<E>) => {
         obs.unsubscribe(handler);
-        element.removeEventListener(eventName, eventListener, listenerOptions);
+        removeListener(eventName, eventListener, listenerOptions);
     };
     obs.dispose = () => {
         obs.dispose();
-        element.removeEventListener(eventName, eventListener, listenerOptions);
+        removeListener(eventName, eventListener, listenerOptions);
     };
     return obs;
 }
