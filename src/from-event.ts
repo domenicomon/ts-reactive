@@ -5,24 +5,28 @@ export function fromEvent<E>(element: any, eventName: string, listenerOptions?: 
     const eventListener = (event: E) => {
         obs.update(event);
     }
-    let addListener = element.addEventListener;
-    let removeListener = element.removeEventListener;
-    if(typeof element.addListener === 'function') {
-        addListener = element.addListener
-        removeListener = element.removeListener
-    }
-    if(typeof element.on === 'function') {
-        addListener = element.on;
-        removeListener = element.off
-    }
-    typeof addListener === 'function' && addListener(eventName, eventListener, listenerOptions);
+
     obs.unsubscribe = (handler: Handler<E>) => {
         obs.unsubscribe(handler);
-        removeListener(eventName, eventListener, listenerOptions);
+        element[removeList](eventName, eventListener, listenerOptions);
     };
     obs.dispose = () => {
         obs.dispose();
-        removeListener(eventName, eventListener, listenerOptions);
+        element[removeList](eventName, eventListener, listenerOptions);
     };
+
+    let addList = 'addEventListener';
+    let removeList = 'removeEventListener';
+    if(typeof element.addListener === 'function') {
+        addList = 'addListener';
+        removeList = 'removeListener';
+    }
+    if(typeof element.on === 'function') {
+        addList = 'on';
+        removeList = 'off';
+    }
+    if(typeof element[addList] === 'function') {
+        element[addList](eventName, eventListener, listenerOptions);
+    }
     return obs;
 }
