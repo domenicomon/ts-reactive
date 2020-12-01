@@ -9,6 +9,9 @@ export function fromEvent<E>(element: any, eventName: string, listenerOptions?: 
     if(typeof element.addListener === 'function') {
         listener = element.addListener
     }
+    if(typeof element.on === 'function') {
+        listener = element.on
+    }
     typeof listener === 'function' && listener(eventName, eventListener, listenerOptions);
     obs.unsubscribe = (handler: Handler<E>) => {
         obs.unsubscribe(handler);
