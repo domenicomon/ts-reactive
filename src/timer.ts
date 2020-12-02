@@ -7,7 +7,7 @@ export class Timer extends Observable<void> {
         super();
         this.t = setTimeout(() => {
             this.update();
-        })
+        }, time)
     }
 
     dispose = () => {

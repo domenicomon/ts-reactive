@@ -7,7 +7,7 @@ export class Interval extends Observable<void> {
         super();
         this.t = setInterval(() => {
             this.update();
-        })
+        }, time)
     }
 
     dispose = () => {
