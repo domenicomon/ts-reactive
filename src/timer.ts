@@ -1,13 +1,18 @@
-import { Observable } from './observable';
+import { Handler, Observable, Subscription } from './observable';
 
 export class Timer extends Observable<void> {
     private t: any;
-    
-    constructor(time: number) {
+
+    constructor(private time: number) {
         super();
+
+    }
+
+    subscribe(handler: Handler<void>): Subscription<void> {
         this.t = setTimeout(() => {
             this.update();
-        }, time)
+        }, this.time);
+        return super.subscribe(handler, false);
     }
 
     dispose = () => {
