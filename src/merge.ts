@@ -1,4 +1,5 @@
-import { Handler, Observable, Subscription } from "./observable";
+/* eslint-disable no-redeclare */
+import { Handler, Observable, Subscription } from './observable'
 
 export function merge<A, B>(streams: [Observable<A>, Observable<B>]): Observable<A | B>
 export function merge<A, B, C>(streams: [Observable<A>, Observable<B>, Observable<C>]): Observable<A | B | C>
@@ -17,7 +18,7 @@ export function merge<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O>(streams: [Obs
 export function merge<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>(streams: [Observable<A>, Observable<B>, Observable<C>, Observable<D>, Observable<E>, Observable<F>, Observable<G>, Observable<H>, Observable<I>, Observable<J>, Observable<K>, Observable<L>, Observable<M>, Observable<N>, Observable<O>, Observable<P>]): Observable<A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P>
 export function merge<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q>(streams: [Observable<A>, Observable<B>, Observable<C>, Observable<D>, Observable<E>, Observable<F>, Observable<G>, Observable<H>, Observable<I>, Observable<J>, Observable<K>, Observable<L>, Observable<M>, Observable<N>, Observable<O>, Observable<P>, Observable<Q>]): Observable<A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q>
 export function merge<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R>(streams: [Observable<A>, Observable<B>, Observable<C>, Observable<D>, Observable<E>, Observable<F>, Observable<G>, Observable<H>, Observable<I>, Observable<J>, Observable<K>, Observable<L>, Observable<M>, Observable<N>, Observable<O>, Observable<P>, Observable<Q>, Observable<R>]): Observable<A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R>
-export function merge<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S,>(streams: [Observable<A>, Observable<B>, Observable<C>, Observable<D>, Observable<E>, Observable<F>, Observable<G>, Observable<H>, Observable<I>, Observable<J>, Observable<K>, Observable<L>, Observable<M>, Observable<N>, Observable<O>, Observable<P>, Observable<Q>, Observable<R>, Observable<S>]): Observable<A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S>
+export function merge<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, >(streams: [Observable<A>, Observable<B>, Observable<C>, Observable<D>, Observable<E>, Observable<F>, Observable<G>, Observable<H>, Observable<I>, Observable<J>, Observable<K>, Observable<L>, Observable<M>, Observable<N>, Observable<O>, Observable<P>, Observable<Q>, Observable<R>, Observable<S>]): Observable<A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S>
 export function merge<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T>(streams: [Observable<A>, Observable<B>, Observable<C>, Observable<D>, Observable<E>, Observable<F>, Observable<G>, Observable<H>, Observable<I>, Observable<J>, Observable<K>, Observable<L>, Observable<M>, Observable<N>, Observable<O>, Observable<P>, Observable<Q>, Observable<R>, Observable<S>, Observable<T>]): Observable<A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T>
 export function merge<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U>(streams: [Observable<A>, Observable<B>, Observable<C>, Observable<D>, Observable<E>, Observable<F>, Observable<G>, Observable<H>, Observable<I>, Observable<J>, Observable<K>, Observable<L>, Observable<M>, Observable<N>, Observable<O>, Observable<P>, Observable<Q>, Observable<R>, Observable<S>, Observable<T>, Observable<U>]): Observable<A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U>
 export function merge<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, W>(streams: [Observable<A>, Observable<B>, Observable<C>, Observable<D>, Observable<E>, Observable<F>, Observable<G>, Observable<H>, Observable<I>, Observable<J>, Observable<K>, Observable<L>, Observable<M>, Observable<N>, Observable<O>, Observable<P>, Observable<Q>, Observable<R>, Observable<S>, Observable<T>, Observable<U>, Observable<W>]): Observable<A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | W>
@@ -27,21 +28,20 @@ export function merge<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T
 
 // this is type-unsafe but typesafety is ensured above :)
 export function merge<T>(streams: any[]): Observable<T> {
-    const stream = new Observable<T>();
+  const stream = new Observable<T>()
 
-    streams.forEach((s, i) => {
-        const subs: Subscription<any>[] = [];
-        subs.push(s.subscribe((value: any) => {
-            stream.update(value);
-        }));
+  streams.forEach((s, i) => {
+    const subs: Subscription<any>[] = []
+    subs.push(s.subscribe((value: any) => {
+      stream.update(value)
+    }))
 
-        stream.disposables = stream.disposables.concat(subs);
+    stream.disposables = stream.disposables.concat(subs)
 
-        stream.unsubscribe = (handler: Handler<any>) => {
-            subs.forEach(item => item.dispose());
-            stream.unsubscribe(handler);
-        };
-    });
+    stream.onUnsubscribe = () => {
+      subs.forEach(item => item.dispose())
+    }
+  })
 
-    return stream;
+  return stream
 }

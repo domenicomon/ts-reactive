@@ -1,32 +1,31 @@
-import { Handler, Observable } from "./observable";
+import { Handler, Observable } from './observable'
 
 export function fromEvent<E>(element: any, eventName: string, listenerOptions?: any): Observable<E> {
-    const obs = new Observable<E>();
-    const eventListener = (event: E) => {
-        obs.update(event);
-    }
+  const obs = new Observable<E>()
+  const eventListener = (event: E) => {
+    obs.update(event)
+  }
 
-    obs.unsubscribe = (handler: Handler<E>) => {
-        obs.unsubscribe(handler);
-        element[removeList](eventName, eventListener, listenerOptions);
-    };
-    obs.dispose = () => {
-        obs.dispose();
-        element[removeList](eventName, eventListener, listenerOptions);
-    };
+  obs.onUnsubscribe = () => {
+    element[removeList](eventName, eventListener, listenerOptions)
+  }
 
-    let addList = 'addEventListener';
-    let removeList = 'removeEventListener';
-    if(typeof element.addListener === 'function') {
-        addList = 'addListener';
-        removeList = 'removeListener';
-    }
-    if(typeof element.on === 'function') {
-        addList = 'on';
-        removeList = 'off';
-    }
-    if(typeof element[addList] === 'function') {
-        element[addList](eventName, eventListener, listenerOptions);
-    }
-    return obs;
+  obs.onDispose = () => {
+    element[removeList](eventName, eventListener, listenerOptions)
+  }
+
+  let addList = 'addEventListener'
+  let removeList = 'removeEventListener'
+  if (typeof element.addListener === 'function') {
+    addList = 'addListener'
+    removeList = 'removeListener'
+  }
+  if (typeof element.on === 'function') {
+    addList = 'on'
+    removeList = 'off'
+  }
+  if (typeof element[addList] === 'function') {
+    element[addList](eventName, eventListener, listenerOptions)
+  }
+  return obs
 }
